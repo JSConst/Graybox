@@ -1,0 +1,300 @@
+:root {
+  font-size: 16px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Proto Mono Regular", monospace;
+}
+
+html,
+body {
+  background-color: black;
+  color: green;
+  line-height: 1.2;
+}
+
+main {
+  margin: auto;
+  text-align: center;
+}
+
+.main-container-class {
+  width: fit-content;
+  margin: 0 auto;
+
+  /* menu bar height */
+  margin-top: 2rem;
+}
+
+.main-container-class-showed-options {
+  margin-top: 13.5rem;
+}
+
+.ta-container-class {
+  display: inline-block;
+  width: 50%;
+  vertical-align: top;
+  padding: 0.125rem;
+}
+
+.ta-task-container-class {
+  display: inline-block;
+  width: 50%;
+  vertical-align: top;
+  padding: 0.125rem;
+}
+
+.ta-task-container-class-left {
+  padding-top: 1rem;
+}
+
+.ta-task-container-class-left-onescreen {
+  padding-top: 1.5rem;
+}
+
+.ta-main-class {
+  border: solid green 0.0625rem;
+  display: none;
+  color: green;
+  background-color: black;
+  resize: none;
+  margin: auto auto 0.3rem;
+  padding: 0.2rem;
+  font-size: 1rem;
+  text-size-adjust: none;
+}
+
+.ta-ram-class {
+  border: solid green 0.0625rem;
+  display: none;
+  color: green;
+  background-color: black;
+  margin: auto auto 0.3rem;
+  padding: 2.5rem 0.2rem;
+}
+
+.ta-task-main-class {
+  border: solid green 0.0625rem;
+  display: block;
+  color: green;
+  background-color: black;
+  resize: none;
+  margin: 0.3rem auto;
+  padding: 0.2rem;
+  font-size: 1rem;
+  text-size-adjust: none;
+}
+
+.ta-task-ram-class {
+  border: solid green 0.0625rem;
+  display: block;
+  color: green;
+  background-color: black;
+  margin: 0.3rem auto;
+  padding: 2.5rem 0.2rem;
+}
+
+.btns-container-class {
+  width: 45%;
+  display: inline-block;
+  margin: 0.3rem auto;
+}
+
+.btns-container-left-class {
+  text-align: left;
+  margin-left: 5%;
+}
+
+.btns-container-right-class {
+  text-align: right;
+  margin-right: 5%;
+}
+
+.btns-main-class {
+  display: inline-block;
+  width: 6.25rem;
+  height: 1.5rem;
+  margin: 0.125rem;
+  background: black;
+  color: green;
+  border: solid green 0.0625rem;
+  border-radius: 0.2rem;
+  transition: all 0.3s ease-out 0.1s;
+}
+
+.btns-main-class:hover {
+  background: green;
+  color: black;
+}
+
+.menu-bar-class {
+  padding: 0 5px;
+  text-align: right;
+  background-color: green;
+  color: black;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+
+  /* height of menu bar */
+  height: 2rem;
+  z-index: 99;
+}
+
+.menu-btn-class {
+  display: inline-block;
+  margin-right: 0.3rem;
+
+  /* menu bar height */
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-top: 0.2rem;
+  background: black;
+  color: green;
+  border: solid black 0.0625rem;
+  border-radius: 0.2rem;
+  transition: all 0.3s ease-out 0.1s;
+}
+
+.menu-btn-class:hover {
+  background: green;
+  color: black;
+}
+
+.ide-container-class {
+  display: block;
+  margin: auto;
+  border: none;
+  background: black;
+}
+
+.task-btns-main-container {
+  display: block;
+  left: 0;
+  right: 0;
+  margin: 1rem auto;
+}
+
+.task-container-main-class {
+  display: none;
+  margin: auto;
+  border: none;
+  background: black;
+}
+
+/*
+.task-label-class {
+}
+*/
+
+.options-container-class {
+  padding: 0 5px;
+  position: fixed;
+  display: none;
+  background: green;
+  border: solid green 0.0625rem;
+  top: 2rem;
+  right: 0;
+  left: 0;
+  color: black;
+  flex-flow: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+/*
+.options-lbl-class {
+}
+*/
+
+.options-cbx-class {
+  margin: 0.3rem;
+}
+
+.menu-bar-lbl-class {
+  display: none;
+  color: black;
+  margin-right: 0.3rem;
+}
+
+.help-screen-main-class {
+  margin: 0.2rem;
+  display: none;
+  position: relative;
+  top: 0.2rem;
+  left: 0;
+  right: 0;
+  height: calc(100vh - 0.3rem - 2rem);
+  width: calc(100vw - 1.25rem);
+  border: solid green 0.0625rem;
+  background-color: black;
+
+  /*  background: black; */
+  color: green;
+}
+
+.help-page-main-class {
+  color: green;
+  border: none;
+  height: 100%;
+  width: 100%;
+}
+
+.pick-level-selector-class {
+  position: absolute;
+  top: 0.25rem;
+  right: calc(2rem + 5px);
+  overflow: hidden;
+  color: black;
+  background-color: green;
+
+  /* background: green; */
+  border: solid black 0.0625rem;
+  width: 20rem;
+  height: 1.5rem;
+  margin: auto 0.3rem;
+}
+
+.pick-level-selector-class:hover {
+  height: auto;
+}
+
+.pick-level-selector-options-class {
+  text-align: left;
+  color: black;
+  background: green;
+  background-color: green;
+  padding: 0.1rem 0.3rem;
+}
+
+.pick-level-selector-options-class:hover {
+  color: green;
+  background: black;
+  background-color: black;
+}
+
+.logo-container-class {
+  transform: translateY(50%) rotate(0deg);
+  animation: 5s linear infinite alternate change-color;
+}
+
+@keyframes change-color {
+  0% {
+    transform: translateY(50%) rotate(0.5deg);
+    font-size: 1rem;
+  }
+
+  50% {
+    transform: translateY(50%) rotate(0deg);
+    font-size: 1.05rem;
+  }
+
+  100% {
+    transform: translateY(50%) rotate(-0.5deg);
+    font-size: 1rem;
+  }
+}
