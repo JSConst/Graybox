@@ -27,7 +27,7 @@ export let tasks: TaskList = {
       checkHist: `"${Math.random().toFixed(Math.random() * 7)}"\n${
         (Math.random() * 10) >>> 0
       }`,
-      storyText: "/story0.txt",
+      storyText: `/${cnst.REPO_NAME}/story0.txt`,
     },
   ],
   idx: 0,
