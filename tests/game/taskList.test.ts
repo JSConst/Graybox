@@ -7,7 +7,7 @@ function mockResponse() {
       status: 200,
       json: () =>
         new Promise((resolve) => {
-          resolve({ text: ["test"], idx: 0 });
+          resolve({ contents: JSON.stringify({ text: ["test"], idx: 0 }) });
         }),
     });
   });

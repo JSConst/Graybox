@@ -36,8 +36,8 @@ export let tasks: TaskList = {
 export const getLevelsFromServer = async () => {
   const response = await fetch(cnst.LEVELS_SRV).catch((err) => err);
   if (response.ok) {
-    await response.json().then((data: TaskList) => {
-      tasks = data;
+    await response.json().then((data: { contents: string }) => {
+      tasks = JSON.parse(data.contents);
     });
   }
   return tasks;
