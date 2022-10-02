@@ -1,4 +1,4 @@
-export const REPO_NAME = "Graybox";
+export const REPO_NAME = "graybox";
 
 export const SIMB_SHOW_IDX = 0;
 export const HEX_SHOW_IDX = 1;
