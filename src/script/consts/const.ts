@@ -33,4 +33,4 @@ export const BG_MUSIC_SRC = `${REPO_NAME}/bgmusic.mp3`;
 //CORS proxy
 export const LEVELS_SRV = `https://api.allorigins.win/get?url=${encodeURIComponent(
   "http://185.117.153.193:43210/levels"
-)}`;
+)}&rand=${Math.random()}`;
