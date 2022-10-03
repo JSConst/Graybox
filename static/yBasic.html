@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width">
 		<title>The graybox</title>
 	</head>
-	<body spellcheck="false">
+	<body spellcheck="false" style="min-width: 720px">
 		<nav style="position: fixed; padding: 5px; z-index:99; background-color: black; bottom: 0; width: 100%; text-align: center">
 			<hr style="color:green">
 			<a href="#goal" style="color: lightgreen; margin-right: 10px">Цель игры</a>
@@ -24,7 +24,7 @@
 					изменения, произошедшие в ОЗУ виртуальной машины с изменениями, произошедшими на виртуальном экране. Как
 					это сделать? - восстановить программу, производящую эти изменения. Программы в игре написаны на простом языке
 					программирования Yocto BASIC и могут быть частично известны игроку в начале уровня. Все изменения, производимые 
-					неизвестной герою программой (сны героя), видны игроку в виде "снапшотов" - слайдов состояний ОЗУ и экрана
+					неизвестной герою программой (сны героя), видны игроку в виде "снапшотов" - эпизодов состояний ОЗУ и экрана
 					виртуальной машины в различные моменты времени. Это похоже на отладку, только наоборот. <span style="color:red">
 					Переверните свой мир - побудьте немного компьютером!</span> Самое время ответить себе на вопрос - когда я пишу
 					программу, я <span style="font-weight:bold">действительно</span> понимаю, <span style="font-weight:bold">
@@ -67,6 +67,154 @@
 					предваряется символом <span style="color:red"> < </span>. Обычная печать происходит без дополнительных признаков.
 				</p>
 			</section>
+			<section style="margin: 0 auto; font-size=0.5rem; font-family: 'Proto Mono Regular', monospace;" id="ide">
+				<h3 style="text-align: center">
+					IDE (среда разработки и отладки)	
+				</h3>
+				<p>
+					Чтобы помочь герою разобраться в происходящем, игроку надо выполнить следующие действия:
+				</p>
+				<ul>
+					<li>просмотреть эпизоды сна</li>
+					<li>попытаться восстановить программу, которая производит эти действия</li>
+					<li>отладить полученный код</li>
+					<li>проверить, что написанная программа действительно снится герою</li>
+				</ul>
+				<p>
+					Всё это позволяет выполнить IDE.
+				</p>
+				<div style="text-align: center; margin-bottom: 10px">
+					<p>
+						Список элементов управления:
+					</p>
+					<a href="#code" style="display:block; color: lightgreen; margin: 3px">Код</a>
+					<a href="#ram" style="display:block; color: lightgreen; margin: 3px">ОЗУ</a>
+					<a href="#console" style="display:block; color: lightgreen; margin: 3px">Консоль</a>
+					<a href="#screen" style="display:block; color: lightgreen; margin: 3px">Экран</a>
+					<a href="#dream" style="display:block; color: lightgreen; margin: 3px">Сон</a>
+					<a href="#buttons" style="display:block; color: lightgreen; margin: 3px">Кнопки</a>
+					<a href="#menu" style="display:block; color: lightgreen; margin: 3px">Меню</a>
+				</div>
+				<div style="text-align: center" id="code">
+					<span style="color:red">	
+						Редактор кода и окно сообщений.
+					</span>
+					<img src="/graybox/1.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Редактор кода позволяет написать свой программный код. В начале уровня может содержать часть програмы, которую
+					требуется восстановить. Окно сообщений отображает синтаксические ошибки и ошибки выполнения программы. При
+					пошаговом выполнении программы в окне сообщений	видно, какая строка исполнялась последней. Кнопка <span style="color:red">
+					CODE</span> показывает, что в данный момент виден именно редактор кода и позволяет переключиться на отображение
+					содержимого ОЗУ.
+				</p>
+				<div style="text-align: center" id="ram">
+					<span style="color:red">	
+						Окно отображения содержимого ОЗУ.
+					</span>
+					<img src="/graybox/2.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Окно состояния ОЗУ виртуальной машины позволяет просмотреть области переменных и стека При пошаговом выполнении
+					программы изменения, произведенные последним выполненным оператором, будут окрашены в <span style="color:red">
+					красный</span> цвет. Кнопка <span style="color:red">RAM</span> показывает, что в данный момент видно именно окно
+					состояния ОЗУ и позволяет переключиться на редактор кода.
+				</p>
+				<div style="text-align: center" id="console">
+					<span style="color:red">	
+						Окно отображения содержимого виртуальной консоли.
+					</span>
+					<img src="/graybox/3.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Окно виртуальной консоли позволяет задать данные, которые после выполнении оператора вввода попадут в ОЗУ.
+					Можно вводить числовые и строковые данные. Строковые данные должны быть записаны в <span style="color:red">
+					двойных кавычках</span>. Кнопка <span style="color:red">INPUT</span> показывает, что в данный момент видно
+					именно окно виртуальной консоли и позволяет переключиться на просмотр экрана виртуальной машины.
+				</p>
+				<div style="text-align: center" id="screen">
+					<span style="color:red">	
+						Окно отображения содержимого экрана виртуальной машины.
+					</span>
+					<img src="/graybox/4.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Окно экрана виртуальной машины позволяет увидеть информацию, которую программа выводит с помощью оператора
+					вывода. Также на экране отображаются данные, введенные из консоли. При пошаговом выполнении программы изменения
+					на виртуальном экране происходят только после выполнения операторов вывода или ввода. Кнопка <span style="color:red">SCREEN
+					</span> показывает, что в данный момент видно именно окно экрана и позволяет переключиться на окно виртуальной
+					консоли.
+				</p>
+				<div style="text-align: center" id="dream">
+					<span style="color:red">	
+						Элементы просмотра и управления эпизодами сна.
+					</span>
+					<img src="/graybox/5.png" style="display: block; max-width: 700px; margin: 10px auto">
+					<img src="/graybox/6.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Элементы просмотра сна позволяют увидеть отрывки из сна героя, по которым игрок должен восстановить неизвестную
+					герою программу. На панели сна есть состояние ОЗУ, состояние экрана и кнопки управления сном.
+					Кнопки позволяют перемещаться по эпизодам сна:
+					<ul>
+						<li><span style="color:red">[<</span> - Перейти в начало сна</li>
+						<li><span style="color:red"><<</span> - Перейти к предыдущему изменению состояния ОЗУ во сне</li>
+						<li><span style="color:red"><</span> - Перейти к предыдущему отрывку сна</li>
+						<li><span style="color:red">></span> - Перейти к следующему отрывку сна</li>
+						<li><span style="color:red">>></span> - Перейти к следующему изменению состояния ОЗУ во сне</li>
+						<li><span style="color:red">>]</span> - Перейти в конец сна</li>
+						<li><span style="color:red">RESET</span> - Просмотреть сон повторно</li>
+					</ul>
+					Состояния ОЗУ и экрана при нажатии какой-либо кнопки изменяются синхронно. Изменения, произошедшие в ОЗУ после нажатия кнопки, отображены
+					<span style="color:red">красным</span> цветом. Если программа во сне использовала неизвестные игроку входные данные,
+					то после нажатия кнопки <span style="color:red">RESET</span> они будут изменены. В поле <span style="color:red">SNAPSHOT</span>
+					показано, какой конкретно отрывок сна виден в данный момент и сколько всего эпизодов в данном сне. Кнопка <span style="color:red">CLOSE
+					</span> закрывает панель сна.
+				</p>
+				<div style="text-align: center" id="buttons">
+					<span style="color:red">	
+						Кнопки управления интерпретатором и ходом игры.
+					</span>
+					<img src="/graybox/7.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Кнопки позволяют запускать и отлаживать программу на yBasic, а также управлять игрой:
+					<ul>
+						<li><span style="color:red">RUN</span> - Запустить программу на выполнение</li>
+						<li><span style="color:red">STEP</span> - Запустить выполнение на один шаг</li>
+						<li><span style="color:red">RESET</span> - При пошаговом выполнении вернуться к началу программы</li>
+						<li><span style="color:red">SHOW</span> - Показать панель управления сном</li>
+						<li><span style="color:red">CHECK</span> - Проверить, верно ли игрок угадал программу из сна</li>
+						<li><span style="color:red">NEXT</span> - Перейти к следующему уровню (может быть не видна)</li>
+					</ul>
+					После нажатия кнопки <span style="color:red">CHECK</span> происходит сравнение программы, написанной пользователем,
+					с программой, которую необходимо выяснить герою на данном уровне. Сравнение не учитывает особенности написания кода и
+					нумерации строк (кроме случаев, когда номер строки помещается в стек). Важным является только точное воспроизведение
+					последовательности и сути действий, которые совершает программа из сна в ОЗУ и на экране. Эти действия и их очередность
+					видны на панели сна. Если пользователь верно воспроизвёл программу, то после проверки в окне сообщений возникнет
+					соответствующая надпись и кнопка <span style="color:red">NEXT</span> станет доступна и позволит перейти на следующий
+					уровень. Если программы не совпадут, в окне сообщений можно будет прочесть, в чем именно они не совпали.
+				</p>
+				<div style="text-align: center" id="menu">
+					<span style="color:red">	
+						Меню настроек.
+					</span>
+					<img src="/graybox/8.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Меню настроек позволяет изменять элементы интерфейса и игрового процесса:
+					<ul>
+						<li>В ОЗУ отображать строковые переменные как набор символов, а не коды ASCII</li>
+						<li>Числовые данные представлять в ОЗУ с помощью шестнадцатиричных чисел</li>
+						<li>Показывать/скрыть часть программы, которую требуется восстановить</li>
+						<li>Показывать/скрыть подсказки по действиям элементов управления</li>
+						<li>Проигрывать/остановить фоновую музыку</li>
+						<li>Показывать панель сна на одном экране с панелью кода (только для широких экранов)</li>
+					</ul>
+					Если применить изменения настроек, то IDE перезагрузится и прогресс уровня будет утерян. С помощью настроек можно
+					значительно усложнить игровой процесс (по умолчанию настроен самый простой вариант).
+				</p>
+			</section>
 			<section style="margin: 0 auto; font-size=0.5rem; font-family: 'Proto Mono Regular', monospace;" id="yBasic">
 				<h3 style="text-align: center">
 					Язык программирования Yocto BASIC (yBasic)
@@ -89,9 +237,10 @@
 				<p> В такой программе интерпретатор считывает последовательно строки в сторону увеличения порядковых номеров.
 				Работа программы завершится после обработки строки с номером 100.
 				</p>
-				<!--hr style="color:green"-->
+			</section>
+			<section style="margin: 0 auto; font-size=0.5rem; font-family: 'Proto Mono Regular', monospace;" id="operators">
 				<div style="text-align: center; margin-bottom: 10px">
-				<h3 style="text-align: center" id="operators">
+				<h3 style="text-align: center">
 					Операторы yBasic
 				</h3>
 					<p>
@@ -119,14 +268,12 @@
 					<a href="#gosub" style="display:block; color: lightgreen; margin: 3px">GOSUB</a>
 					<a href="#return" style="display:block; color: lightgreen; margin: 3px">RETURN</a>
 				</div>
-				<!--hr style="color:green"-->
 				<p id="rem">
 					<span style="color:red">	
 						REM [КОММЕНТАРИЙ]:
 					</span>
 					оператор комментария. Cтроки, которые начинаются с REM, считываются, но не исполняются интерпретатором
 				</p>
-				<!--hr style="color:green"-->
 				<p id="end">
 					<span style="color:red">	
 						END:
@@ -145,7 +292,6 @@
 				<p>
 					В такой программе строка 100 обработана уже не будет. Выполнив оператор END на строке 50, интерпретатор прекратит работу.
 				</p>
-				<!--hr style="color:green"-->
 				<p id="let">
 					<span style="color:red">	
 						LET <ИМЯ ПЕРЕМЕННОЙ> [ = НАЧАЛЬНОЕ ЗНАЧЕНИЕ]:
@@ -190,7 +336,6 @@
 60 REM CREATING A STRING VARIABLE F$ WITH INITIAL VALUE D$ + E$ ("0123456" + "")
 61 LET F$ = D$ + E$</pre>
 				</p>
-				<!--hr style="color:green"-->
 				<p id="assign">
 					Значения переменных можно изменить с помощью оператора присваивания <span style="color:red">=</span>. 
 				</p>
@@ -212,7 +357,6 @@
 42 REM BUT NOW VARIABLE E$ IS EQUAL "12345678" BECOUSE STRING VARIABLE LENGTH
 43 REM IS ONLY 8 SIMBOLS</pre>
 				</p>
-				<!--hr style="color:green"-->
 				<p id="dim">
 					<span style="color:red">	
 						DIM <ИМЯ МАССИВА>(<РАЗМЕРНОСТЬ МАССИВА: 1..8>):
@@ -246,7 +390,6 @@
 71 F$ = B$(4)
 72 REM NOW VALUE OF A STRING VARIABLE F$ IS "12345678"</pre>
 				</p>
-				<!--hr style="color:green"-->
 				<p id="input">
 					<span style="color:red">	
 						INPUT <ИМЯ ПЕРЕМЕННОЙ ИЛИ МАССИВА>:
@@ -282,7 +425,6 @@
 -123
 "DCBA"</pre>
 				</p>
-				<!--hr style="color:green"-->
 				<p id="print">
 					<span style="color:red">	
 						PRINT[LN] [ИМЯ ПЕРЕМЕННОЙ, ЭЛЕМЕНТА МАССИВА ИЛИ ВЫРАЖЕНИЕ]:
@@ -323,7 +465,6 @@
 THIS IS B$ + D$(4) RESULT: ABCD  DCBA 
 THIS IS A + C(1) + 1 RESULT: 1</pre>
 				</p>
-				<!--hr style="color:green"-->
 				<p id="goto">
 					<span style="color:red">	
 						GOTO <НОМЕР СТРОКИ>:
@@ -341,7 +482,6 @@ THIS IS A + C(1) + 1 RESULT: 1</pre>
 50 PRINTLN B
 51 REM NOW ONLY THE VALUE 2 IS DISPLAYED ON THE SCREEN</pre>
 				</p>
-				<!--hr style="color:green"-->
 				<p id="if">
 					<span style="color:red">	
 						IF <УСЛОВИЕ> THEN <ОПЕРАТОР 1> [ELSE <ОПЕРАТОР 2>]:
@@ -372,7 +512,6 @@ NOT ((A + B) * 2 <> C + D) XOR (A > C)</pre>
 					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
 9876543210 THE END!</pre>
 				</p>
-				<!--hr style="color:green"-->
 				<p id="gosub">
 					<span style="color:red">	
 						GOSUB <НОМЕР СТРОКИ>:
@@ -381,7 +520,6 @@ NOT ((A + B) * 2 <> C + D) XOR (A > C)</pre>
 					в память (в область стека). Выполнение программы продолжится со строки, номер которой указан в качестве параметра
 					к GOSUB. Адрес возврата в стеке занимает 2 байта.
 				</p>
-				<!--hr style="color:green"-->
 				<p id="return">
 					<span style="color:red">	
 						RETURN:
