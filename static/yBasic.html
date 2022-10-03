@@ -550,4 +550,24 @@ THIS IS PRINTED AFTER EXECUTING A SUBROUTINE</pre>
 			</section>
 		</main>
 	</body>
+	<script>
+		if (screen.availWidth <= 750) {
+			document.querySelectorAll("pre").forEach((el, index) => {
+				el.style["padding"]="1";
+				el.style["width"] = `calc(${screen.availWidth}px - 20vw)`;
+				el.style["font-size"] = `calc(${screen.availWidth / 800} * 12px)`;
+
+			});
+
+			document.querySelectorAll("img").forEach((el) => {
+				el.style["margin"]="0";
+				el.style["width"] = `calc(${screen.availWidth}px - 15vw)`;
+			});
+
+			document.querySelectorAll("nav").forEach((el) => {
+				el.style["padding"]="0";
+			});
+
+		}
+	</script>
 </html>
