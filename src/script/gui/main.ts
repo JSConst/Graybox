@@ -58,10 +58,6 @@ export class GUI {
     curLevel >= this._tasks.text.length &&
       (curLevel = this._tasks.text.length - 1);
 
-    //if not first level
-    //if (curLevel)
-    //{
-    //
     history.pushState(null, "", null);
 
     const logoContainer = document.createElement("div");
@@ -127,11 +123,6 @@ export class GUI {
 
     pickLevelContainer.appendChild(sel);
     pickLevelContainer.appendChild(btn);
-    //}
-    //else
-    //{
-    //	this.startGame(0);
-    //}
   }
 
   startGame(curLevel: number, hideStoryText?: boolean) {

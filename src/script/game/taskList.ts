@@ -37,7 +37,6 @@ export let tasks: TaskList = {
         '0 REM THIS IS AN UNFINISHED VERSION OF THE GAME\n10 REM WITHOUT CONNECTING TO THE SERVER, ONLY ONE LEVEL IS AVAILABLE\n20 REM FOR NOW, THAT IS ALL\n30 PRINT "THE END"',
       testHist: "",
       checkHist: "",
-      storyText: "",
     },
   ],
   idx: 0,

@@ -1,0 +1,29 @@
+(() => {
+	return {
+	  text: [
+	    {
+	      name: "NOTHING TO DO",
+	      codeHint:
+		'0 PRINTLN "SOMETHING ABOUT DOING NOTHING"\n10 LET A$\n20 LET B\n30 INPUT A$\n40 INPUT B\n50 PRINT "VALUES IN MEMORY: \'"\n60 PRINT A$\n70 PRINT "\', "\n80 PRINTLN B',
+	      testProg:
+		'0 PRINTLN "SOMETHING ABOUT DOING NOTHING"\n10 LET A$\n20 LET B\n30 INPUT A$\n40 INPUT B\n50 PRINT "VALUES IN MEMORY: \'"\n60 PRINT A$\n70 PRINT "\', "\n80 PRINTLN B',
+	      testHist:
+		"Math.random().toFixed(Math.random() * 7)\n(Math.random() * 10) >>> 0",
+	      checkHist: `"${Math.random().toFixed(Math.random() * 7)}"\n${
+		(Math.random() * 10) >>> 0
+	      }`,
+	      storyText: `/graybox/story0.txt`,
+	    },
+	    {
+	      name: "THE END",
+	      codeHint:
+		'0 REM THIS IS AN UNFINISHED VERSION OF THE GAME\n10 REM WITHOUT CONNECTING TO THE SERVER, ONLY ONE LEVEL IS AVAILABLE\n20 REM FOR NOW, THAT IS ALL\n30 PRINT "THE END"',
+	      testProg:
+		'0 REM THIS IS AN UNFINISHED VERSION OF THE GAME\n10 REM WITHOUT CONNECTING TO THE SERVER, ONLY ONE LEVEL IS AVAILABLE\n20 REM FOR NOW, THAT IS ALL\n30 PRINT "THE END"',
+	      testHist: "",
+	      checkHist: "",
+	    },
+	  ],
+	  idx: 0,
+	};
+})();
