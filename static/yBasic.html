@@ -1,0 +1,573 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>The graybox</title>
+	</head>
+	<body spellcheck="false">
+		<nav style="position: fixed; padding: 5px; z-index:99; background-color: black; bottom: 0; width: 100%; text-align: center">
+			<hr style="color:green">
+			<a href="#goal" style="color: lightgreen; margin-right: 10px">Цель игры</a>
+			<a href="#vm" style="color: lightgreen; margin-right: 10px">Виртуальная машина</a>
+			<a href="#ide" style="color: lightgreen; margin-right: 10px">IDE</a>
+			<a href="#yBasic" style="color: lightgreen; margin-right: 10px">yBasic</a>
+			<a href="#operators" style="color: lightgreen; margin-right: 10px">Операторы</a>
+		</nav>
+		<main style="padding-bottom: 45px; padding-left: 3px; padding-right: 3px">
+			<section style="margin: 0 auto; font-size=0.5rem; font-family: 'Proto Mono Regular', monospace;" id="goal">
+				<h3 style="text-align: center">
+					Цель игры	
+				</h3>
+				<p>
+					Игрок должен помочь герою разобраться в происходящем. Для того, чтобы прояснить события, требуется связать
+					изменения, произошедшие в ОЗУ виртуальной машины с изменениями, произошедшими на виртуальном экране. Как
+					это сделать? - восстановить программу, производящую эти изменения. Программы в игре написаны на простом языке
+					программирования Yocto BASIC и могут быть частично известны игроку в начале уровня. Все изменения, производимые 
+					неизвестной герою программой (сны героя), видны игроку в виде "снапшотов" - эпизодов состояний ОЗУ и экрана
+					виртуальной машины в различные моменты времени. Это похоже на отладку, только наоборот. <span style="color:red">
+					Переверните свой мир - побудьте немного компьютером!</span> Самое время ответить себе на вопрос - когда я пишу
+					программу, я <span style="font-weight:bold">действительно</span> понимаю, <span style="font-weight:bold">
+					КАК</span> это всё работает?
+				</p>
+			</section>
+			<section style="margin: 0 auto; font-size=0.5rem; font-family: 'Proto Mono Regular', monospace;" id="vm">
+				<h3 style="text-align: center">
+					Особенности архитектуры виртуальной машины
+				</h3>
+				<p>
+					Основой архитектуры виртуальной машины является интерпретатор, который построчно выполняет операторы языка
+					программирования yBASIC. В момент исполнения строки программы интерпретатор может осуществить одно из
+					следующих действий:
+				</p>
+				<ul>
+					<li>создать (изменить) переменную или массив</li>
+					<li>изменить порядок выполнения строк программы с записью или без записи в стек</li>
+					<li>произвести печать содержимого переменной или результата выражения на экран</li>
+					<li>произвести ввод значения из виртуальной консоли</li>
+					<li>остановить выполнение программы</li>
+				</ul>
+				<p>
+					ОЗУ виртуальной машины представляет собой массив, размером 256 байт и имеет адреса [0..255]. Условно
+					ОЗУ можно разделить на область переменных и область стека. Область переменных начинается с адреса 0
+					и её размер растёт в сторону увеличения адресов. Область стека начинается с адреса 255 и её размер растет
+					в сторону уменьшения адресов. В случае пересечения областей переменных и стека возникнет ошибка выполнения
+					программы. При создании переменных, вводе из виртуальной консоли, а также вызове подпрограмм содержимое ОЗУ
+					изменяется.
+				</p>
+				<p>
+					У виртуальной машины имеется возможность получить данные извне - виртуальная консоль. До начала выполнения
+					интерпретатором программы консоль уже должна содержать абсолютно все необходимые программе данные. Данные
+					из консоли выбираются последовательно при выполнении интерпретатором очередной команды ввода. Если при
+					выполнении команды ввода данных в консоли нет, то возникнет ошибка выполнения программы.
+				</p>
+				<p>
+					Виртуальная машина имеет экран, работающий в текстовом режиме 80x25. Интерпретатор, выполяя программу, может
+					изменять содержимое виртуального экрана. Вводимая с виртуальной консоли информация также видна на экране, но
+					предваряется символом <span style="color:red"> < </span>. Обычная печать происходит без дополнительных признаков.
+				</p>
+			</section>
+			<section style="margin: 0 auto; font-size=0.5rem; font-family: 'Proto Mono Regular', monospace;" id="ide">
+				<h3 style="text-align: center">
+					IDE (среда разработки и отладки)	
+				</h3>
+				<p>
+					Чтобы помочь герою разобраться в происходящем, игроку надо выполнить следующие действия:
+				</p>
+				<ul>
+					<li>просмотреть эпизоды сна</li>
+					<li>попытаться восстановить программу, которая производит эти действия</li>
+					<li>отладить полученный код</li>
+					<li>проверить, что написанная программа действительно снится герою</li>
+				</ul>
+				<p>
+					Всё это позволяет выполнить IDE.
+				</p>
+				<div style="text-align: center; margin-bottom: 10px">
+					<p>
+						Список элементов управления:
+					</p>
+					<a href="#code" style="display:block; color: lightgreen; margin: 3px">Код</a>
+					<a href="#ram" style="display:block; color: lightgreen; margin: 3px">ОЗУ</a>
+					<a href="#console" style="display:block; color: lightgreen; margin: 3px">Консоль</a>
+					<a href="#screen" style="display:block; color: lightgreen; margin: 3px">Экран</a>
+					<a href="#dream" style="display:block; color: lightgreen; margin: 3px">Сон</a>
+					<a href="#buttons" style="display:block; color: lightgreen; margin: 3px">Кнопки</a>
+					<a href="#menu" style="display:block; color: lightgreen; margin: 3px">Меню</a>
+				</div>
+				<div style="text-align: center" id="code">
+					<span style="color:red">	
+						Редактор кода и окно сообщений.
+					</span>
+					<img src="/graybox/1.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Редактор кода позволяет написать свой программный код. В начале уровня может содержать часть програмы, которую
+					требуется восстановить. Окно сообщений отображает синтаксические ошибки и ошибки выполнения программы. При
+					пошаговом выполнении программы в окне сообщений	видно, какая строка исполнялась последней. Кнопка <span style="color:red">
+					CODE</span> показывает, что в данный момент виден именно редактор кода и позволяет переключиться на отображение
+					содержимого ОЗУ.
+				</p>
+				<div style="text-align: center" id="ram">
+					<span style="color:red">	
+						Окно отображения содержимого ОЗУ.
+					</span>
+					<img src="/graybox/2.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Окно состояния ОЗУ виртуальной машины позволяет просмотреть области переменных и стека При пошаговом выполнении
+					программы изменения, произведенные последним выполненным оператором, будут окрашены в <span style="color:red">
+					красный</span> цвет. Кнопка <span style="color:red">RAM</span> показывает, что в данный момент видно именно окно
+					состояния ОЗУ и позволяет переключиться на редактор кода.
+				</p>
+				<div style="text-align: center" id="console">
+					<span style="color:red">	
+						Окно отображения содержимого виртуальной консоли.
+					</span>
+					<img src="/graybox/3.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Окно виртуальной консоли позволяет задать данные, которые после выполнения операторов ввода попадут в ОЗУ.
+					Можно вводить числовые и строковые данные. Строковые данные должны быть записаны в <span style="color:red">
+					двойных кавычках</span>. Кнопка <span style="color:red">INPUT</span> показывает, что в данный момент видно
+					именно окно виртуальной консоли и позволяет переключиться на просмотр экрана виртуальной машины.
+				</p>
+				<div style="text-align: center" id="screen">
+					<span style="color:red">	
+						Окно отображения содержимого экрана виртуальной машины.
+					</span>
+					<img src="/graybox/4.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Окно экрана виртуальной машины позволяет увидеть информацию, которую программа выводит с помощью операторов
+					вывода. Также на экране отображаются данные, введенные из консоли. При пошаговом выполнении программы изменения
+					на виртуальном экране происходят только после выполнения операторов вывода или ввода. Кнопка <span style="color:red">SCREEN
+					</span> показывает, что в данный момент видно именно окно экрана и позволяет переключиться на окно виртуальной
+					консоли.
+				</p>
+				<div style="text-align: center" id="dream">
+					<span style="color:red">	
+						Элементы просмотра и управления эпизодами сна.
+					</span>
+					<img src="/graybox/5.png" style="display: block; max-width: 700px; margin: 10px auto">
+					<img src="/graybox/6.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Элементы просмотра сна позволяют увидеть отрывки из сна героя, по которым игрок должен восстановить неизвестную
+					герою программу. На панели сна есть состояние ОЗУ, состояние экрана и кнопки управления сном.
+					Кнопки позволяют перемещаться по эпизодам сна:
+					<ul>
+						<li><span style="color:red">[<</span> - Перейти в начало сна</li>
+						<li><span style="color:red"><<</span> - Перейти к предыдущему изменению состояния ОЗУ во сне</li>
+						<li><span style="color:red"><</span> - Перейти к предыдущему отрывку сна</li>
+						<li><span style="color:red">></span> - Перейти к следующему отрывку сна</li>
+						<li><span style="color:red">>></span> - Перейти к следующему изменению состояния ОЗУ во сне</li>
+						<li><span style="color:red">>]</span> - Перейти в конец сна</li>
+						<li><span style="color:red">RESET</span> - Просмотреть сон повторно</li>
+					</ul>
+					Состояния ОЗУ и экрана при нажатии какой-либо кнопки изменяются синхронно. Изменения, произошедшие в ОЗУ после нажатия кнопки, отображены
+					<span style="color:red">красным</span> цветом. Если программа во сне использовала неизвестные игроку входные данные,
+					то после нажатия кнопки <span style="color:red">RESET</span> они будут изменены. В поле <span style="color:red">SNAPSHOT</span>
+					показано, какой конкретно отрывок сна виден в данный момент и сколько всего эпизодов в данном сне. Кнопка <span style="color:red">CLOSE
+					</span> закрывает панель сна.
+				</p>
+				<div style="text-align: center" id="buttons">
+					<span style="color:red">	
+						Кнопки управления интерпретатором и ходом игры.
+					</span>
+					<img src="/graybox/7.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Кнопки позволяют запускать и отлаживать программу на yBasic, а также управлять игрой:
+					<ul>
+						<li><span style="color:red">RUN</span> - Запустить программу на выполнение</li>
+						<li><span style="color:red">STEP</span> - Запустить выполнение на один шаг</li>
+						<li><span style="color:red">RESET</span> - При пошаговом выполнении вернуться к началу программы</li>
+						<li><span style="color:red">SHOW</span> - Показать панель управления сном</li>
+						<li><span style="color:red">CHECK</span> - Проверить, верно ли игрок угадал программу из сна</li>
+						<li><span style="color:red">NEXT</span> - Перейти к следующему уровню (может быть не видна)</li>
+					</ul>
+					После нажатия кнопки <span style="color:red">CHECK</span> происходит сравнение программы, написанной пользователем,
+					с программой, которую необходимо выяснить герою на данном уровне. Сравнение не учитывает особенности написания кода и
+					нумерации строк (кроме случаев, когда номер строки помещается в стек). Важным является только точное воспроизведение
+					последовательности и сути действий, которые совершает программа из сна в ОЗУ и на экране. Эти действия и их очередность
+					видны на панели сна. Если пользователь верно воспроизвёл программу, то после проверки в окне сообщений возникнет
+					соответствующая надпись и кнопка <span style="color:red">NEXT</span> станет доступна и позволит перейти на следующий
+					уровень. Если программы не совпадут, в окне сообщений можно будет прочесть, в чем именно они не совпали.
+				</p>
+				<div style="text-align: center" id="menu">
+					<span style="color:red">	
+						Меню настроек.
+					</span>
+					<img src="/graybox/8.png" style="display: block; max-width: 700px; margin: 10px auto">
+				</div>
+				<p>
+					Меню настроек позволяет изменять элементы интерфейса и игрового процесса:
+					<ul>
+						<li>В ОЗУ отображать строковые переменные как набор символов, а не коды ASCII</li>
+						<li>Числовые данные представлять в ОЗУ с помощью шестнадцатиричных чисел</li>
+						<li>Показывать/скрыть часть программы, которую требуется восстановить</li>
+						<li>Показывать/скрыть подсказки по действиям элементов управления</li>
+						<li>Проигрывать/остановить фоновую музыку</li>
+						<li>Показывать панель сна на одном экране с панелью кода (только для широких экранов)</li>
+					</ul>
+					Если применить изменения настроек, то IDE перезагрузится и прогресс уровня будет утерян. С помощью настроек можно
+					значительно усложнить игровой процесс (по умолчанию настроен самый простой вариант).
+				</p>
+			</section>
+			<section style="margin: 0 auto; font-size=0.5rem; font-family: 'Proto Mono Regular', monospace;" id="yBasic">
+				<h3 style="text-align: center">
+					Язык программирования Yocto BASIC (yBasic)
+				</h3>
+				<p>
+					Программа на yBasic представляет собой набор строк, каждая из которых начинается с номера.
+					Номер каждой последующей строки должен быть больше предыдушего. Программу выполняет интепретатор. 
+					После выполнения интерпретатором последней строки из списка программа завершается. 
+					На каждой строке может быть только один оператор языка (исключение составляет только оператор условного
+					выполнения IF...[ELSE]). Здесь и далее при описании операторов в квадратных скобках указываются необязательные
+					параметры, а в треугольных скобках указываются обязательные параметры.
+				</p>
+				<p style="text-align: center; color: red">
+					Пример корректно написанной программы:
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+0 REM FIRST LINE 
+10 REM SECOND LINE
+100 REM THIRD LINE</pre>
+				</p>
+				<p> В такой программе интерпретатор считывает последовательно строки в сторону увеличения порядковых номеров.
+				Работа программы завершится после обработки строки с номером 100.
+				</p>
+			</section>
+			<section style="margin: 0 auto; font-size=0.5rem; font-family: 'Proto Mono Regular', monospace;" id="operators">
+				<div style="text-align: center; margin-bottom: 10px">
+				<h3 style="text-align: center">
+					Операторы yBasic
+				</h3>
+					<p>
+						Список операторов yBasic по категориям:
+					</p>
+					<a href="#rem" style="display:block; color: lightgreen; margin: 3px">Комментарии</a>
+					<a href="#end" style="display:block; color: lightgreen; margin: 3px">Досрочное завершения выполнения</a>
+					<a href="#let" style="display:block; color: lightgreen; margin: 3px">Создание и изменение переменных</a>
+					<a href="#input" style="display:block; color: lightgreen; margin: 3px">Операторы ввода-вывода</a>
+					<a href="#goto" style="display:block; color: lightgreen; margin: 3px">Операторы нелинейного выполнения</a>
+				</div>
+				<div style="text-align: center; margin-bottom: 10px">
+					<p>
+						Список операторов yBasic по названию:
+					</p>
+					<a href="#rem" style="display:block; color: lightgreen; margin: 3px">REM</a>
+					<a href="#end" style="display:block; color: lightgreen; margin: 3px">END</a>
+					<a href="#let" style="display:block; color: lightgreen; margin: 3px">LET</a>
+					<a href="#assign" style="display:block; color: lightgreen; margin: 3px">=</a>
+					<a href="#dim" style="display:block; color: lightgreen; margin: 3px">DIM</a>
+					<a href="#input" style="display:block; color: lightgreen; margin: 3px">INPUT</a>
+					<a href="#print" style="display:block; color: lightgreen; margin: 3px">PRINT[LN]</a>
+					<a href="#goto" style="display:block; color: lightgreen; margin: 3px">GOTO</a>
+					<a href="#if" style="display:block; color: lightgreen; margin: 3px">IF...[ELSE]</a>
+					<a href="#gosub" style="display:block; color: lightgreen; margin: 3px">GOSUB</a>
+					<a href="#return" style="display:block; color: lightgreen; margin: 3px">RETURN</a>
+				</div>
+				<p id="rem">
+					<span style="color:red">	
+						REM [КОММЕНТАРИЙ]:
+					</span>
+					оператор комментария. Cтроки, которые начинаются с REM, считываются, но не исполняются интерпретатором
+				</p>
+				<p id="end">
+					<span style="color:red">	
+						END:
+					</span>					
+					оператор досрочного завершения программы. При выполнении END программа завершается даже если этот оператор расположен 
+					не на последней строке программы
+				</p>
+				<p style="text-align: center; color:red">
+					Пример использования оператора END:
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+0 REM FIRST LINE
+10 REM SECOND LINE
+50 END
+100 REM THIRD LINE</pre>
+				</p>
+				<p>
+					В такой программе строка 100 обработана уже не будет. Выполнив оператор END на строке 50, интерпретатор прекратит работу.
+				</p>
+				<p id="let">
+					<span style="color:red">	
+						LET <ИМЯ ПЕРЕМЕННОЙ> [ = НАЧАЛЬНОЕ ЗНАЧЕНИЕ]:
+					</span>
+					оператор создания переменной. Можно создавать числовые и строковые переменные. Все переменные имеют имена из одной буквы латинского
+					алфавита, то есть возможно создать до 26 переменных. Таким образом, корректные имена переменных: A, B, C ...Z. В качестве начального значения могут быть
+					использованы как одиночные значения, так и выражения. 
+				</p>
+				<p>
+					Выражения для числовых переменных должны содержать только числа, математические и битовые операторы (<span style="color:red">+</span>, <span style="color:red">-</span>,
+					<span style="color:red">*</span>, <span style="color:red">/</span>, <span style="color:red">NOT</span>, <span style="color:red">XOR</span>, <span style="color:red">OR</span>,
+					<span style="color:red">AND</span>). Числа могут быть представлены в десятичном и шестнадцатиричном форматах: 
+					<span style="color:red">-1</span>, <span style="color:red">2</span>, <span style="color:red">3</span> - десятичные числа. <span style="color:red">&HFF</span>,
+					<span style="color:red">&H01</span>, <span style="color:red">&H1A</span> - шестнадцатиричные числа. 
+					<span style="color:red">(NOT &HE3 + 100) / 2</span> - это числовое выражение, результатом выполнения которого будет число -64. 
+				</p>
+				<p>
+					Выражения для строковых переменных должны содержать только строковые значения (записываются в кавычках) и оператор конкатенации (<span style="color:red">+</span>).
+					<span style="color:red">"HELLO " + "WORLD!"</span> - это строковое выражение, результатом которого будет строка "HELLO WORLD!".
+				</p>
+				<p>
+					Числовые переменные могут хранить 1 байт информации и представляют собой целые знаковые числа. В памяти числовая переменная также занимает 1 байт.
+					Числовая переменная может принимать значения [-128...127]. Переменные с именами A, B, C в тексте программы будут интерпретированы как числовые.
+				</p>
+				<p>	Строковые переменные могут хранить строку длинной до 8 символов. В памяти такая переменная занимает 9 байт - по одному байту на каждый возможный символ 
+					строки и один дополнительный нулевой байт - признак конца строки. Однобуквенное имя строковой переменной должно оканчиваться на символ <span style="color:red">$</span>.
+					Переменные с именами A$, B$, C$ в тексте программы будут интерпретированы как строковые.
+				<p>
+				<p style="text-align: center; color:red">
+					Пример использования оператора LET:
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+10 REM CREATING A NUMERIC VARIABLE A WITH INITIAL VALUE 0
+11 LET A 
+20 REM CREATING A NUMERIC VARIABLE В WITH INITIAL VALUE 127
+21 LET B = &H7F
+30 REM CREATING A NUMERIC VARIABLE C WITH INITIAL VALUE А + В (0 + 127)
+31 LET C = A + B
+40 REM CREATING A STRING VARIABLE D$ WITH INITIAL VALUE "0123456" 
+41 LET D$ = "0123456"
+50 REM CREATING AN UNINITIALIZED VARIABLE E$ (EMPTY STRING)
+51 LET E$
+60 REM CREATING A STRING VARIABLE F$ WITH INITIAL VALUE D$ + E$ ("0123456" + "")
+61 LET F$ = D$ + E$</pre>
+				</p>
+				<p id="assign">
+					Значения переменных можно изменить с помощью оператора присваивания <span style="color:red">=</span>. 
+				</p>
+				<p style="text-align: center; color:red">
+					Пример использования оператора присваивания:
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+0 LET A
+1 LET C$
+2 LET D$
+3 LET E$
+10 REM ASSIGMENT THE VALUE 66 TO A NUMERIC VARIABLE A
+11 A = 33 + 33
+20 REM ASSIGMENT THE VALUE "123456" TO A STRING VARIABLE C$
+21 C$ = "123456"
+30 REM ASSIGMENT THE VALUE "7890" TO A STRING VARIABLE D$
+31 D$ = "7890"
+40 REM ASSIGMENT THE VALUE "1234567890" (C$ + D$) TO A STRING VARIABLE E$
+41 E$ = C$ + D$
+42 REM BUT NOW VARIABLE E$ IS EQUAL "12345678" BECOUSE STRING VARIABLE LENGTH
+43 REM IS ONLY 8 SIMBOLS</pre>
+				</p>
+				<p id="dim">
+					<span style="color:red">	
+						DIM <ИМЯ МАССИВА>(<РАЗМЕРНОСТЬ МАССИВА: 1..8>):
+					</span>
+					оператор создания массива. Можно создавать числовые и строковые массивы. Каждый элемент массива представляет собой числовую или строковую
+					переменную, соответственно. Максимальное количество элементов массива 8, минимальное - 1. В памяти максимальный числовой массив займёт 1 * 8 = 8 байт,
+					а максимальный строковый массив займёт 9 * 8 = 72 байта. Элементы массива всегда нумеруются с нуля. Для обращения к элементу массива требуется в круглых
+					скобках указать индекс элемента, к которому происходит обращение. Для массивов работают такие же правила именования, как для соответствующих переменных.
+					Для элементов массивов работают такие же правила присваивания, как для соответствующих переменных.
+				</p>
+				<p style="text-align: center; color:red">
+					Пример использования DIM: 
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+0 LET D = 3
+1 LET E = 1
+2 LET F$ = "1234"
+10 REM CREATING A NUMERIC ARRAY A WITH 3 ELEMENTS (3 BYTES IN RAM)
+11 DIM A(3)
+20 REM CREATING A STRING ARRAY B$ WITH 5 ELEMENTS (45 BYTES IN RAM)
+21 DIM B$(5)
+30 REM CREATING A NUMERIC ARRAY C WITH 5 (D + E + 1) ELEMENTS (5 BYTES IN RAM)
+31 DIM C(D + E + 1)
+40 REM ASSIGMENT THE VALUE "12345678" (F$ + "5678") TO ELEMENT 4 (D + E) OF A STRING ARRAY B$
+41 B$(D + E) = F$ + "5678"
+50 REM ASSIGMENT THE VALUE 3 (D) TO ELEMENT 1 (E) OF A NUMERIC ARRAY A
+51 A(E) = D
+60 REM ASSIGMENT TO A NUMERIC VARIABLE E ELEMENT 1 (E) OF A NUMERIC ARRAY A
+61 E = A(E)
+62 REM NOW VALUE OF A NUMERIC VARIABLE E IS 3
+70 REM ASSIGMENT TO A STRING VARIABLE F$ ELEMENT 4 OF A STRING ARRAY B$
+71 F$ = B$(4)
+72 REM NOW VALUE OF A STRING VARIABLE F$ IS "12345678"</pre>
+				</p>
+				<p id="input">
+					<span style="color:red">	
+						INPUT <ИМЯ ПЕРЕМЕННОЙ ИЛИ ЭЛЕМЕНТА МАССИВА>:
+					</span>
+					оператор ввода данных из виртуальной консоли в переменную или элемент массива. Можно вводить числовые и строковые данные. Для успешного ввода
+					необходимо, чтобы виртуальная консоль содержала вводимые данные.
+				</p>
+				<p style="text-align: center; color:red">
+					Пример использования INPUT: 
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+0 LET A
+1 LET B$
+2 DIM C(3)
+3 DIM D$(5)
+10 REM INPUT TO A NUMERIC VARIABLE A
+11 INPUT A
+12 REM NOW THE VALUE OF VARIABLE A IS EQUAL TO CONSOLE INPUT DATA
+20 REM INPUT TO A STRING VARIABLE B 
+21 INPUT B$
+22 REM NOW THE VALUE OF VARIABLE B$ IS EQUAL TO CONSOLE INPUT DATA
+30 REM INPUT TO AN ELEMENT OF A NUMERIC ARRAY C 
+31 INPUT C(1)
+32 REM NOW THE VALUE OF ELEMENT 1 OF ARRAY C IS INPUTED FROM THE CONSOLE
+40 REM INPUT TO AN ELEMENT OF A STRING ARRAY D$
+41 INPUT D$(0)
+42 REM NOW THE VALUE OF ELEMENT 0 OF ARRAY D$ IS INPUTED FROM THE CONSOLE</pre>
+				</p>
+				<p style="text-align: center; color:red">
+					Пример данных, поступающих из консоли: 
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+123
+"ABCD"
+-123
+"DCBA"</pre>
+				</p>
+				<p id="print">
+					<span style="color:red">	
+						PRINT[LN] [ИМЯ ПЕРЕМЕННОЙ, ЭЛЕМЕНТА МАССИВА ИЛИ ВЫРАЖЕНИЕ]:
+					</span>
+					оператор вывода данных на виртуальный экран. Можно выводить числовые и строковые переменные, элементы массива и результаты вычисления выражений. Если
+					оператор используется с суффиксом <span style="color:red">LN</span>, то после вывода данных будет осуществлён переход на новую строку. Числа выводятся в
+					десятичном формате.
+				</p>
+				<p style="text-align: center; color:red">
+					Пример использования PRINT: 
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+0 LET A = &H0A
+1 LET B$ = " ABCD "
+2 DIM C(3)
+3 C(1) = -10
+4 DIM D$(5)
+5 D$(4) = " DCBA "
+10 REM PRINTING THE VALUE OF A NUMERIC VARIABLE A (10)
+11 PRINT A
+20 REM PRINTING THE VALUE OF A STRING VARIABLE B (" ABCD ") 
+21 PRINT B$
+30 REM PRINTING THE VALUE OF AN ELEMENT 1 OF ARRAY C (-10)
+31 PRINT C(1)
+40 REM PRINTING THE VALUE OF AN ELEMENT 4 OF ARRAY D$ (" DCBA ")
+41 PRINT D$(4)
+50 REM PRINTING THE LINE FEED
+51 PRINTLN
+60 REM PRINTING THE STRING EXPRESSION
+61 PRINTLN "THIS IS B$ + D$(4) RESULT:" + B$ + D$(4)
+70 REM PRINTING THE NUMERIC EXPRESSION
+71 PRINT "THIS IS A + C(1) + 1 RESULT: "
+72 PRINTLN A + C(1) + 1</pre>
+				</p>
+				<p style="text-align: center; color:red">
+					Результат вывода на экран: 
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+10 ABCD -10 DCBA 
+THIS IS B$ + D$(4) RESULT: ABCD  DCBA 
+THIS IS A + C(1) + 1 RESULT: 1</pre>
+				</p>
+				<p id="goto">
+					<span style="color:red">	
+						GOTO <НОМЕР СТРОКИ>:
+					</span>
+					оператор передачи управления на строку с указанныи номером.
+				</p>
+				<p style="text-align: center; color:red">
+					Пример использования GOTO: 
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+10 LET A = 1
+20 LET B = 2
+30 REM PROGRAM EXECUTION AFTER LINE 31 MOVES TO LINE 50 INSTED OF LINE 40
+31 GOTO 50
+40 PRINT A
+50 PRINTLN B
+51 REM NOW ONLY THE VALUE 2 IS DISPLAYED ON THE SCREEN</pre>
+				</p>
+				<p id="if">
+					<span style="color:red">	
+						IF <УСЛОВИЕ> THEN <ОПЕРАТОР 1> [ELSE <ОПЕРАТОР 2>]:
+					</span>
+					оператор ветвления. Позволяет выполнить один оператор в случае выполнения заданного условия и опционально выполнить 
+					другой оператор, если заданное условие не выполняется. Условие может компоноваться из нескольких выражений c помощью операторов сравнения
+					<span style="color:red"><</span> (левая часть меньше), <span style="color:red">></span> (левая часть больше), <span style="color:red">=</span> (равно),
+					<span style="color:red"><></span> (не равно) и логических операторов <span style="color:red">AND</span> (логическое "И"), <span style="color:red">OR</span>
+					(логическое "ИЛИ"), <span style="color:red">NOT</span> (логическое "НЕ"), <span style="color:red">XOR</span> ("исключающее ИЛИ")
+				</p>
+				<p style="text-align: center; color:red">
+					Пример логических выражений: 
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+(A + B) * 2 < C + D
+NOT ((A + B) * 2 <> C + D) XOR (A > C)</pre>
+				</p>
+				<p style="text-align: center; color:red">
+					Пример использования IF...[ELSE] (организация цикла): 
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+10 LET I = 10
+20 I = I - 1
+30 PRINT I
+40 REM GOTO WORKS IF THE VALUE OF THE NUMERIC VARIABLE I IS NOT EQUAL TO 0
+41 IF NOT (I = 0) THEN GOTO 20 ELSE PRINTLN " THE END!"</pre>
+				</p>
+				<p style="text-align: center; color:red">
+					Результат выполнения цикла (содержимое экрана): 
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+9876543210 THE END!</pre>
+				</p>
+				<p id="gosub">
+					<span style="color:red">	
+						GOSUB <НОМЕР СТРОКИ>:
+					</span>
+					оператор вызова подпрограммы. При выполнении этого оператора номер текущей строки (адрес возврата) помещается
+					в память (в область стека). Выполнение программы продолжится со строки, номер которой указан в качестве параметра
+					к GOSUB. Адрес возврата в стеке занимает 2 байта.
+				</p>
+				<p id="return">
+					<span style="color:red">	
+						RETURN:
+					</span>
+					оператор возврата из подпрограммы. При выполнении этого оператора из стека извлекается адрес возврата и
+					выполнение программы продолжится со строки, номер которой был извлечен из стека. Область памяти, содержащая 
+					извлеченный номер строки очищается (происходит обнуление двух байт, занимаемых адресом возврата).
+				</p>
+				<p style="text-align: center; color:red">
+					Пример использования GOSUB и RETURN: 
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+0 PRINTLN "THIS IS PRINTED BEFORE EXECUTING A SUBROUTINE"
+10 REM AFTER EXECUTION OF LINE 11 NEXT LINE NUMBER IS 40
+11 GOSUB 40
+20 PRINTLN "THIS IS PRINTED AFTER EXECUTING A SUBROUTINE"
+30 END
+40 PRINTLN "THIS IS PRINTED FROM A SUBROUTINE"
+50 RETURN
+51 REM NOW EXECUTION WILL RETURN TO THE LINE 20</pre>
+				</p>
+				<p style="text-align: center; color:red">
+					Результат вывода на экран: 
+					<pre style="font-weight:bold; border:dotted red 1px; margin: 0 auto; width: 700px; padding: 10px">
+THIS IS PRINTED BEFORE EXECUTING A SUBROUTINE
+THIS IS PRINTED FROM A SUBROUTINE
+THIS IS PRINTED AFTER EXECUTING A SUBROUTINE</pre>
+				</p>
+			</section>
+		</main>
+	</body>
+	<script>
+		if (screen.availWidth <= 750) {
+			document.querySelectorAll("pre").forEach((el, index) => {
+				el.style["padding"]="1";
+				el.style["width"] = `calc(${screen.availWidth}px - 20vw)`;
+				el.style["font-size"] = `calc(${screen.availWidth / 800} * 12px)`;
+
+			});
+
+			document.querySelectorAll("img").forEach((el) => {
+				el.style["margin"]="0";
+				el.style["width"] = `calc(${screen.availWidth}px - 15vw)`;
+			});
+
+			document.querySelectorAll("nav").forEach((el) => {
+				el.style["padding"]="0";
+			});
+
+		}
+	</script>
+</html>

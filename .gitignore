@@ -1,0 +1,8 @@
+node_modules
+coverage
+dist
+.parcel-cache
+backend/*
+!backend/main.js
+!backend/package.json
+!backend/tasklist
