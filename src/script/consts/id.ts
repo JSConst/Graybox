@@ -31,7 +31,7 @@ export const MENUBAR_WARN_LBL = "optionsWarningLbl";
 
 export const OPTIONS_BTN = "optionsBtnId";
 export const HELP_BTN = "helpBtnId";
-export const LANG_BTN = "langBtnId";
+export const EXP_BTN = "expBtnId";
 
 export const HELP_PAGE = "helpPage";
 export const HELP_SCREEN = "help";
@@ -57,3 +57,8 @@ export const TASK_LBL = "taskLbl";
 export const PICK_LEVEL_CONTAINER = "pickLevelContainer";
 
 export const LOGO_CONTAINER = "logoContainer";
+
+export const EXP_CONTAINER = "exportContainer";
+export const TA_EXP_CODE_HINT = "taExpCodeHint";
+
+export const EXP_TASK_NAME = "expTaskNameInput";

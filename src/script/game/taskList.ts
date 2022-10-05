@@ -43,11 +43,30 @@ export let tasks: TaskList = {
 };
 
 export const getLevelsFromServer = async () => {
-  const response = await fetch(cnst.LEVELS_SRV).catch((err) => err);
-  if (response.ok) {
-    await response.json().then((data: { contents: string | null }) => {
-      data.contents && (tasks = JSON.parse(data.contents));
-    });
+  let linkTasks: TaskList | null;
+  const splittedLink = location.href.split("/");
+  try {
+    linkTasks = JSON.parse(
+      atob(splittedLink[splittedLink.length - 1])
+    ) as TaskList;
+    for (const key in linkTasks.text[0]) {
+      if (!tasks.text[0][key as keyof TaskDescriptor]) {
+        throw new Error("Bad task list from the link");
+      }
+    }
+  } catch (e) {
+    linkTasks = null;
+  }
+
+  if (!linkTasks) {
+    const response = await fetch(cnst.LEVELS_SRV).catch((err) => err);
+    if (response.ok) {
+      await response.json().then((data: { contents: string | null }) => {
+        data.contents && (tasks = JSON.parse(data.contents));
+      });
+    }
+  } else {
+    tasks = linkTasks;
   }
   return tasks;
 };

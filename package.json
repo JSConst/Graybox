@@ -4,7 +4,7 @@
   "description": "This is a game for programmers, which allows you to understand in general terms how the program interacts with system resources, such as RAM and the I / O system.",
   "source": "src/index.html",
   "scripts": {
-    "build": "parcel build ./src/index.html --public-url ./",
+    "build": "parcel build ./src/index.html --public-url ./ && cp ./dist/index.html ./dist/404.html",
     "start": "tsc --noEmit && parcel ./src/index.html",
     "test": "jest --silent=false --coverage",
     "lint": "prettier --check . && eslint . && stylelint **/*.scss",

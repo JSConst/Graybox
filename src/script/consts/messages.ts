@@ -76,6 +76,7 @@ export const enum MESSAGES {
   UI_COMPARE_FINALLY_RAM_ERR,
   UI_PICK_THE_LEVEL,
   UI_GO_TO_THE_LEVEL,
+  UI_LINK_IN_THE_CLIPBOARD,
 }
 
 export function makeMsg(
@@ -218,7 +219,9 @@ export function makeMsg(
     case MESSAGES.UI_PICK_THE_LEVEL:
       return `LEVEL ${args[1]}: ${args[2]}`;
     case MESSAGES.UI_GO_TO_THE_LEVEL:
-      return "Go";
+      return "GO";
+    case MESSAGES.UI_LINK_IN_THE_CLIPBOARD:
+      return "LINK TO THE LEVEL IS NOW IN THE CLIPBOARD";
     default:
       return "UNKNOWN ERROR!";
   }

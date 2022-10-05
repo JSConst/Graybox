@@ -507,7 +507,7 @@ export class GUI {
     //button "show"
     btns[5].addEventListener("click", (e) => {
       if (
-        window.screen.availWidth > 1659 &&
+        window.screen.availWidth > cnst.MIN_WIDE_SCREEN_WIDTH &&
         this._options[cnst.ONE_SCREEN_IDX]
       ) {
         if (
@@ -531,6 +531,10 @@ export class GUI {
           this._task.showScreen(id.TA_TASK_SCREEN, this._task.idx);
         }
       } else {
+        (document.getElementById(id.EXP_BTN) as HTMLDivElement).style[
+          "display"
+        ] = "none";
+
         (document.getElementById(id.IDE_CONTAINER) as HTMLDivElement).style[
           "display"
         ] = "none";
@@ -562,9 +566,6 @@ export class GUI {
         ] = "green";
         (document.getElementById(id.TA_CONSOLE) as HTMLInputElement).value =
           msg.makeMsg(msg.MESSAGES.UI_CONGRATULATIONS_MSG);
-        (document.getElementById(id.BTN_NEXT) as HTMLInputElement).style[
-          "display"
-        ] = "inline-block";
 
         const oldLevel = window.localStorage.getItem(cnst.LS_LEVEL_ITEM) || 0;
         const newLevel = this._tasks.idx + 1;
@@ -572,14 +573,20 @@ export class GUI {
         if (newLevel > oldLevel) {
           window.localStorage.setItem(cnst.LS_LEVEL_ITEM, String(newLevel));
         }
+
+        if (this._tasks.idx < this._tasks.text.length - 1) {
+          (document.getElementById(id.BTN_NEXT) as HTMLInputElement).style[
+            "display"
+          ] = "inline-block";
+        }
       }
     });
     //
     //button "next"
     btns[7].addEventListener("click", (e) => {
-      if (this._tasks.idx < this._tasks.text.length - 1) {
-        this.startGame(this._tasks.idx + 1);
-      }
+      //if (this._tasks.idx < this._tasks.text.length - 1) {
+      this.startGame(this._tasks.idx + 1);
+      //}
     });
 
     for (let i = 0; i < 3; i++) {
@@ -694,7 +701,7 @@ export class GUI {
         helpBtn.addEventListener("mouseout", optSaveMOut);
         helpBtn.innerHTML = caption.YES_CAPTION;
 
-        (document.getElementById(id.LANG_BTN) as HTMLButtonElement).style[
+        (document.getElementById(id.EXP_BTN) as HTMLButtonElement).style[
           "display"
         ] = "none";
 
@@ -722,7 +729,7 @@ export class GUI {
           helpBtn.removeEventListener("mouseout", optSaveMOut);
           helpBtn.innerHTML = caption.HELP_CAPTION;
 
-          (document.getElementById(id.LANG_BTN) as HTMLButtonElement).style[
+          (document.getElementById(id.EXP_BTN) as HTMLButtonElement).style[
             "display"
           ] = "inline-block";
 
@@ -765,7 +772,7 @@ export class GUI {
         helpBtn.removeEventListener("mouseout", optSaveMOut);
         helpBtn.innerHTML = caption.HELP_CAPTION;
 
-        (document.getElementById(id.LANG_BTN) as HTMLButtonElement).style[
+        (document.getElementById(id.EXP_BTN) as HTMLButtonElement).style[
           "display"
         ] = "inline-block";
 
@@ -818,7 +825,7 @@ export class GUI {
             document.getElementById(id.HELP_BTN) as HTMLButtonElement
           ).innerHTML = caption.NO_CAPTION;
 
-          (document.getElementById(id.LANG_BTN) as HTMLButtonElement).style[
+          (document.getElementById(id.EXP_BTN) as HTMLButtonElement).style[
             "display"
           ] = "none";
 
@@ -857,7 +864,7 @@ export class GUI {
               document.getElementById(id.HELP_BTN) as HTMLButtonElement
             ).innerHTML = caption.HELP_CAPTION;
 
-            (document.getElementById(id.LANG_BTN) as HTMLButtonElement).style[
+            (document.getElementById(id.EXP_BTN) as HTMLButtonElement).style[
               "display"
             ] = "inline-block";
 
@@ -898,22 +905,168 @@ export class GUI {
       }
     });
 
-    //menu bar language switch button
-    const langBtn = document.createElement("button");
-    langBtn.innerHTML = caption.LANG_CAPTION;
-    langBtn.id = id.LANG_BTN;
-    langBtn.setAttribute(
+    //menu bar export user level button
+    const expBtn = document.createElement("button");
+    expBtn.innerHTML = caption.EXP_CAPTION;
+    expBtn.id = id.EXP_BTN;
+    expBtn.setAttribute(
       cnst.HELP_STRING_ATTRIBUTE_NAME,
-      caption.LANG_BTN_HINT_TXT
+      caption.EXP_BTN_HINT_TXT
     );
+
+    //button "export user level"
+    expBtn.addEventListener("click", () => {
+      const btnCaption = (
+        document.getElementById(id.EXP_BTN) as HTMLButtonElement
+      ).textContent as string;
+      //close export screen
+      if (btnCaption.charCodeAt(0) === caption.YES_CAPTION_CODE) {
+        const userTaskList: TaskList = {
+          text: [
+            {
+              name: (
+                document.getElementById(id.EXP_TASK_NAME) as HTMLInputElement
+              ).value,
+              codeHint: (
+                document.getElementById(
+                  id.TA_EXP_CODE_HINT
+                ) as HTMLTextAreaElement
+              ).value,
+              testProg: (
+                document.getElementById(id.TA_CODE) as HTMLTextAreaElement
+              ).value,
+              testHist: (
+                document.getElementById(id.TA_INPUT) as HTMLTextAreaElement
+              ).value,
+              checkHist: (
+                document.getElementById(id.TA_INPUT) as HTMLTextAreaElement
+              ).value,
+            },
+          ],
+          idx: 0,
+        };
+
+        const userTaskBase64 = `${cnst.ABSOLUTE_PATH}${cnst.REPO_NAME}/${btoa(
+          JSON.stringify(userTaskList)
+        )}`;
+
+        navigator.clipboard.writeText(userTaskBase64).then(() => {
+          (document.getElementById(id.TA_CONSOLE) as HTMLInputElement).style[
+            "color"
+          ] = "green";
+          (document.getElementById(id.TA_CONSOLE) as HTMLInputElement).value =
+            msg.makeMsg(msg.MESSAGES.UI_LINK_IN_THE_CLIPBOARD);
+        });
+
+        (document.getElementById(id.EXP_BTN) as HTMLButtonElement).innerHTML =
+          caption.EXP_CAPTION;
+
+        (document.getElementById(id.HELP_BTN) as HTMLButtonElement).style[
+          "display"
+        ] = "inline-block";
+
+        (document.getElementById(id.OPTIONS_BTN) as HTMLButtonElement).style[
+          "display"
+        ] = "inline-block";
+
+        (document.getElementById(id.EXP_CONTAINER) as HTMLDivElement).style[
+          "display"
+        ] = "none";
+
+        const ideContainer = document.getElementById(
+          id.IDE_CONTAINER
+        ) as HTMLDivElement;
+        ideContainer.style["display"] = ideContainer.getAttribute(
+          cnst.DISPLAY_ATTRIBUTE_NAME
+        ) as string;
+
+        const taskContainer = document.getElementById(
+          id.TASK_CONTAINER
+        ) as HTMLDivElement;
+        taskContainer.style["display"] = taskContainer.getAttribute(
+          cnst.DISPLAY_ATTRIBUTE_NAME
+        ) as string;
+
+        //show buttons help strings if variable is truthy
+        this.changeAllBtnsHelpStrings(this._options[cnst.HELP_SHOW_IDX]);
+      } else {
+        (document.getElementById("btnReset") as HTMLButtonElement).click();
+        try {
+          const programRunner = new ProgramRunner(
+            (
+              document.getElementById(id.TA_CODE) as HTMLInputElement
+            ).value.toUpperCase(),
+            this._visualizer.getInputHistory(id.TA_INPUT, null),
+            id.TA_CONSOLE
+          );
+          programRunner.run();
+        } catch (e) {
+          if (
+            (e as Error).message === msg.makeMsg(msg.MESSAGES.EXE_COMPLITED_MSG)
+          ) {
+            //show export screen
+            (
+              document.getElementById(id.EXP_BTN) as HTMLButtonElement
+            ).innerHTML = caption.YES_CAPTION;
+
+            (document.getElementById(id.HELP_BTN) as HTMLButtonElement).style[
+              "display"
+            ] = "none";
+
+            (
+              document.getElementById(id.OPTIONS_BTN) as HTMLButtonElement
+            ).style["display"] = "none";
+
+            (document.getElementById(id.EXP_CONTAINER) as HTMLDivElement).style[
+              "display"
+            ] = "block";
+
+            (
+              document.getElementById(
+                id.TA_EXP_CODE_HINT
+              ) as HTMLTextAreaElement
+            ).value = (
+              document.getElementById(id.TA_CODE) as HTMLTextAreaElement
+            ).value;
+
+            const ideContainer = document.getElementById(
+              id.IDE_CONTAINER
+            ) as HTMLDivElement;
+            ideContainer.setAttribute(
+              cnst.DISPLAY_ATTRIBUTE_NAME,
+              ideContainer.style["display"]
+            );
+            ideContainer.style["display"] = "none";
+
+            const taskContainer = document.getElementById(
+              id.TASK_CONTAINER
+            ) as HTMLDivElement;
+            taskContainer.setAttribute(
+              cnst.DISPLAY_ATTRIBUTE_NAME,
+              taskContainer.style["display"]
+            );
+            taskContainer.style["display"] = "none";
+
+            //disable buttons help strings
+            this.changeAllBtnsHelpStrings(0);
+          } else {
+            (document.getElementById(id.TA_CONSOLE) as HTMLInputElement).style[
+              "color"
+            ] = "red";
+            (document.getElementById(id.TA_CONSOLE) as HTMLInputElement).value =
+              (e as Error).message.toLowerCase();
+          }
+        }
+      }
+    });
 
     optionsBtn.className =
       helpBtn.className =
-      langBtn.className =
+      expBtn.className =
         classes.MENU_BTN;
 
     menuBar.appendChild(optionsWarningLbl);
-    menuBar.appendChild(langBtn);
+    menuBar.appendChild(expBtn);
     menuBar.appendChild(helpBtn);
     menuBar.appendChild(optionsBtn);
 
@@ -1139,6 +1292,9 @@ export class GUI {
       (document.getElementById(id.IDE_CONTAINER) as HTMLDivElement).style[
         "display"
       ] = "block";
+
+      (document.getElementById(id.EXP_BTN) as HTMLDivElement).style["display"] =
+        "inline-block";
     });
 
     for (let i = 0; i < length - 1; i++) {
@@ -1201,6 +1357,54 @@ export class GUI {
         codeStr);
     (document.getElementById(id.MAIN_CONTAINER) as HTMLDivElement).appendChild(
       taskContainer
+    );
+
+    const expContainer = document.createElement("div");
+    expContainer.className = classes.TA_CONTAINER;
+    expContainer.id = id.EXP_CONTAINER;
+    expContainer.style["width"] = "100%";
+    expContainer.style["display"] = "none";
+    expContainer.style["padding-top" as unknown as number] = "0.7rem";
+
+    const expCodeHintLabel = document.createElement("label");
+    expCodeHintLabel.className = classes.TASK_LBL_MAIN;
+    expCodeHintLabel.innerHTML = caption.EXP_CODE_HINT_LBL;
+
+    const taExpCodeHint = document.createElement("textarea");
+    taExpCodeHint.cols = cols;
+    taExpCodeHint.className = classes.TA_MAIN;
+
+    taExpCodeHint.id = id.TA_EXP_CODE_HINT;
+    taExpCodeHint.rows = rows2;
+    taExpCodeHint.style["display"] = "block";
+    taExpCodeHint.style["margin-bottom" as unknown as number] = "0.4rem";
+    taExpCodeHint.style["padding-top" as unknown as number] = "0.15rem";
+
+    const expTaskNameLabel = document.createElement("label");
+    expTaskNameLabel.className = classes.TASK_LBL_MAIN;
+    expTaskNameLabel.innerHTML = caption.EXP_TASK_NAME_LBL;
+
+    const expTaskNameInput = document.createElement("input");
+    expTaskNameInput.type = "text";
+    expTaskNameInput.size = cols;
+    expTaskNameInput.className = classes.TA_MAIN;
+    expTaskNameInput.id = id.EXP_TASK_NAME;
+    expTaskNameInput.value = "USER LEVEL";
+    expTaskNameInput.style["display"] = "block";
+
+    expTaskNameInput.addEventListener("input", (e: Event) => {
+      let name = (e.currentTarget as HTMLInputElement).value;
+      name.length > 20 && (name = name.slice(0, 20));
+      (e.currentTarget as HTMLInputElement).value = name;
+    });
+
+    expContainer.appendChild(expCodeHintLabel);
+    expContainer.appendChild(taExpCodeHint);
+    expContainer.appendChild(expTaskNameLabel);
+    expContainer.appendChild(expTaskNameInput);
+
+    (document.getElementById(id.MAIN_CONTAINER) as HTMLDivElement).appendChild(
+      expContainer
     );
 
     this.changeAllBtnsHelpStrings(this._options[cnst.HELP_SHOW_IDX]);
