@@ -27,7 +27,7 @@ export let tasks: TaskList = {
       checkHist: `"${Math.random().toFixed(Math.random() * 7)}"\n${
         (Math.random() * 10) >>> 0
       }`,
-      storyText: `/${cnst.REPO_NAME}/story0.txt`,
+      storyText: `${cnst.REPO_NAME}/story0.txt`,
     },
     {
       name: "THE END",
@@ -37,6 +37,7 @@ export let tasks: TaskList = {
         '0 REM THIS IS AN UNFINISHED VERSION OF THE GAME\n10 REM WITHOUT CONNECTING TO THE SERVER, ONLY ONE LEVEL IS AVAILABLE\n20 REM FOR NOW, THAT IS ALL\n30 PRINT "THE END"',
       testHist: "",
       checkHist: "",
+      storyText: `${cnst.REPO_NAME}/story4.txt`,
     },
   ],
   idx: 0,
