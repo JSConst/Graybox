@@ -1,4 +1,5 @@
 export const REPO_NAME = "/graybox";
+export const ABSOLUTE_PATH = "https://jsconst.github.io";
 //for localhost debugging
 //export const REPO_NAME = "";
 

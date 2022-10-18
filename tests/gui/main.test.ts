@@ -57,8 +57,8 @@ describe("GUI tests", () => {
     const gui = new GUI(tasks);
     gui.createIdeGui(80, 25, 18, 2, tasks.text[0].codeHint);
 
-    expect(document.querySelectorAll("div").length).toEqual(21);
-    expect(document.querySelectorAll("textarea").length).toEqual(5);
+    expect(document.querySelectorAll("div").length).toEqual(22);
+    expect(document.querySelectorAll("textarea").length).toEqual(6);
     expect(document.querySelectorAll("button").length).toEqual(19);
     expect(
       (document.getElementById(id.TA_CODE) as HTMLTextAreaElement).value

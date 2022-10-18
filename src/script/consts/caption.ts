@@ -34,8 +34,8 @@ export const IDE_RELOADED_TXT =
 export const HELP_CAPTION = "F1";
 export const HELP_BTN_HINT_TXT = "Show help";
 
-export const LANG_CAPTION = "RU";
-export const LANG_BTN_HINT_TXT = "Language switching";
+export const EXP_CAPTION = "&#9658";
+export const EXP_BTN_HINT_TXT = "Export a user-level link to the clipboard";
 
 export const OPTIONS_CAPTION = "&#9776";
 export const OPTIONS_CAPTION_CODE = 9776;
@@ -64,3 +64,7 @@ export const BTN_TASK_PLAY_NEXT_HELP = "Go to next RAM cell change";
 export const BTN_LAST_HELP = "Go to the last snapshot";
 export const BTN_RESTART_HELP = "Reset the task to its initial state";
 export const BTN_CLOSE_HELP = "Close task screen";
+
+export const EXP_CODE_HINT_LBL =
+  "Code hint for your level (change here what you want)";
+export const EXP_TASK_NAME_LBL = "Level name (max 20 characters)";
